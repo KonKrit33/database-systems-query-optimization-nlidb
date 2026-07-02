@@ -1,111 +1,102 @@
-# Database Systems: Query Optimization & NLIDB
+# Database Systems Engineering: Query Optimization and LLM-based NLIDB Pipeline
 
-This repository contains MSc coursework labs in Database Systems, focusing on PostgreSQL query optimization, execution plan analysis, and LLM-based Natural Language Interfaces to Databases (NLIDBs).
+This repository presents a database systems engineering project focused on two complementary areas:
 
-The work demonstrates practical skills in relational databases, SQL query formulation, execution plan interpretation, join-order optimization, and the use of language models for database interaction tasks such as Text-to-SQL, SQL-to-Text, and Data-to-Text.
+1. relational query optimization and execution plan analysis,
+2. large-language-model-based Natural Language Interfaces to Databases (NLIDBs).
+
+The project combines classical database systems concepts with modern AI-assisted database interaction. It demonstrates practical skills in SQL, query execution analysis, join-order optimization, prompt engineering, Text-to-SQL, SQL-to-Text, Query Results-to-Text, and end-to-end natural-language querying over structured databases.
 
 ## Project Overview
 
-The repository includes two main labs:
+The repository is organized into two main modules.
 
-### Lab 1: PostgreSQL Query Optimization and Execution Plan Analysis
+## Module 1: PostgreSQL Query Optimization
 
-This lab focuses on SQL query analysis and optimization using PostgreSQL execution plans.
-
-The work includes:
-
-- Reconstruction of an SQL query from a given query execution plan
-- Interpretation of PostgreSQL physical query plans
-- Analysis of joins, filters, indexes, scans, and aggregation operators
-- Manual join-order optimization
-- Use of `join_collapse_limit` to force PostgreSQL to respect written join order
-- Comparison of execution plans before and after optimization
-- Performance evaluation using execution time and buffer statistics
-
-The optimized query starts from the most selective predicate and delays joins that multiply intermediate rows. This substantially reduces execution time and shared buffer usage while preserving the same query result.
-
-### Lab 2: Natural Language Interfaces to Databases
-
-This lab focuses on Natural Language Interfaces to Databases using large language models.
+This module focuses on relational query optimization using PostgreSQL execution plans.
 
 The work includes:
 
-- Text-to-SQL prompting
-- SQL-to-Text generation
-- Data-to-Text generation
-- End-to-end natural-language database querying workflow
-- Prompt design for database interaction
-- Use of structured database schemas and query examples
-- Evaluation of generated SQL and natural-language explanations
+- reconstruction of SQL queries from physical execution plans,
+- interpretation of PostgreSQL query plans,
+- analysis of joins, filters, scans, indexes, and aggregation operators,
+- manual join-order optimization,
+- comparison of execution plans before and after optimization,
+- performance evaluation using execution time and buffer statistics,
+- use of PostgreSQL settings such as `join_collapse_limit` to control join ordering.
 
-This lab connects database systems with modern AI-based interfaces, showing how language models can help users interact with structured data through natural language.
+The goal is to understand how query structure, predicate selectivity, join order, and physical operators affect database performance.
 
-## Repository Structure
+## Module 2: LLM-based Natural Language Interface to Databases
 
-```text
-.
-├── query_optimization/
-│   └── Database_Query_Optimization_Report.pdf
-│
-├── nlidb_llm_text_to_sql/
-│   └── NLIDB_Text_to_SQL_Lab.ipynb
-│
-├── README.md
-└── .gitignore
-```
+This module implements an LLM-based NLIDB workflow using the Spider dataset and SQLite databases.
 
-## Included Files
+The notebook includes:
 
-- `Database_Query_Optimization_Report.pdf`: Report documenting SQL reconstruction from an execution plan, PostgreSQL query optimization, join-order analysis, and before/after execution plans.
-- `NLIDB_Text_to_SQL_Lab.ipynb`: Jupyter notebook implementing Natural Language Interface to Database tasks, including Text-to-SQL, SQL-to-Text, and Data-to-Text workflows.
+- Text-to-SQL prompting,
+- few-shot Text-to-SQL prompting,
+- SQL-to-Text generation,
+- Query Results-to-Text generation,
+- execution of generated SQL queries,
+- schema-aware prompt construction,
+- conversion of query results into natural language,
+- an end-to-end NLIDB pipeline.
+
+The final pipeline takes a natural-language question and a database path as input, then performs:
+
+1. Text-to-SQL generation,
+2. SQL explanation,
+3. SQL execution,
+4. natural-language verbalization of the query results,
+5. latency measurement for each component.
+
+## Technical Components
+
+The NLIDB pipeline includes the following components:
+
+- database schema extraction from Spider metadata,
+- schema formatting for prompt construction,
+- SQL generation from natural language,
+- SQL cleaning and post-processing,
+- SQL-to-Text explanation,
+- SQLite query execution,
+- tabular result serialization,
+- Query Results-to-Text generation,
+- end-to-end orchestration,
+- latency tracking.
 
 ## Tools and Technologies
 
 - PostgreSQL
 - SQL
-- Query execution plans
-- Join-order optimization
-- Index scans
-- Sequential scans
-- Hash joins
-- Nested-loop joins
-- Aggregation
-- JSON execution plans
-- Jupyter Notebook
+- SQLite
+- Spider dataset
 - Python
+- Pandas
+- Jupyter Notebook
+- OpenAI API
+- vLLM backend option
 - Large Language Models
 - Text-to-SQL
 - SQL-to-Text
-- Data-to-Text
-- Natural Language Interfaces to Databases
-
-## Relevance
-
-This repository demonstrates practical database systems skills relevant to:
-
-- Data engineering
-- AI-ready data infrastructure
-- Scientific databases
-- Query optimization
+- Query Results-to-Text
+- Prompt engineering
+- Query execution plans
+- Join-order optimization
 - Database performance analysis
-- Natural-language data access
-- LLM-assisted database querying
-- Structured data systems for industrial and scientific applications
 
-The combination of classical database optimization and AI-based natural language querying is relevant to modern data-intensive environments where users need efficient, interpretable, and accessible access to structured information.
+## Repository Structure
 
-## Notes
-
-Sensitive information such as API keys, tokens, credentials, local database passwords, and environment files are intentionally excluded from this repository.
-
-Large databases, local database dumps, temporary files, cache folders, and system-generated files are not included.
-
-To run the notebook, users should configure their own environment variables locally, for example:
-
-```python
-import os
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-```
-
-Do not hard-code API keys or credentials directly into notebooks or source files.
+```text
+.
+├── README.md
+│
+├── query_optimization/
+│   └── Database_Query_Optimization_Report.pdf
+│
+├── nlidb_pipeline/
+│   └── NLIDB_Text_to_SQL_SQL_to_Text_Data_to_Text.ipynb
+│
+├── .env.example
+├── requirements.txt
+└── .gitignore
